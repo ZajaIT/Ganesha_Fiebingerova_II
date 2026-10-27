@@ -1622,7 +1622,8 @@ max-width: none;
 .parallax-section {
   height: 190px;
   background-size: cover;
-  background-position: center;
+  background-position: center var(--mirka-position, 0%);
+  background-repeat: no-repeat;
   background-attachment: scroll;
 }
 
@@ -2314,6 +2315,52 @@ if (flowerQuote) {
   window.addEventListener("resize", requestFlowerParallax);
 
   requestFlowerParallax();
+}
+
+    // PLOVOUCÍ FOTOGRAFIE MIRKY – MOBIL
+const mirkaPhoto = document.querySelector(".parallax-section");
+
+if (mirkaPhoto) {
+  let mirkaFrame = false;
+
+  function updateMirkaPhoto() {
+    mirkaFrame = false;
+
+    if (window.innerWidth > 600) {
+      mirkaPhoto.style.removeProperty("--mirka-position");
+      return;
+    }
+
+    const rect = mirkaPhoto.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+
+    // 0 % při vstupu pruhu do displeje,
+    // 100 % při jeho odchodu z displeje
+    const progress = Math.max(
+      0,
+      Math.min(
+        1,
+        (viewportHeight - rect.top) / (viewportHeight + rect.height)
+      )
+    );
+
+    mirkaPhoto.style.setProperty(
+      "--mirka-position",
+      `${progress * 100}%`
+    );
+  }
+
+  function requestMirkaPhoto() {
+    if (!mirkaFrame) {
+      mirkaFrame = true;
+      requestAnimationFrame(updateMirkaPhoto);
+    }
+  }
+
+  window.addEventListener("scroll", requestMirkaPhoto, { passive: true });
+  window.addEventListener("resize", requestMirkaPhoto);
+
+  requestMirkaPhoto();
 }
   </script>
 
