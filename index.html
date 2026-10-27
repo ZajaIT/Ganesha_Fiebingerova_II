@@ -2347,8 +2347,8 @@ if (flowerQuote) {
     const sectionCenter = rect.top + rect.height / 2;
 
     // Jemnější pohyb na mobilu, výraznější na PC
-    const speed = window.innerWidth <= 600 ? 0.08 : 0.12;
-    const limit = window.innerWidth <= 600 ? 18 : 40;
+    const speed = window.innerWidth <= 600 ? 0.25 : 0.3;
+const limit = window.innerWidth <= 600 ? 45 : 45;
 
     const shift = Math.max(
       -limit,
