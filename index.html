@@ -2360,6 +2360,7 @@ if (flowerQuote) {
 
       // PLOVOUCÍ FOTOGRAFIE MIRKY – MOBIL
 const mirkaParallax = document.querySelector(".parallax-section");
+    const mirkaViewportHeight = window.screen.height;
 
 if (mirkaParallax) {
   let mirkaTicking = false;
@@ -2373,7 +2374,7 @@ if (mirkaParallax) {
     }
 
     const rect = mirkaParallax.getBoundingClientRect();
-    const viewportCenter = window.innerHeight / 2;
+    const viewportCenter = mirkaViewportHeight / 2;
     const sectionCenter = rect.top + rect.height / 2;
 
     // Posun fotografie podle polohy pruhu na obrazovce
