@@ -618,25 +618,21 @@ max-width: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .quote-section::before {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  top: -50px;
-  height: calc(100% + 100px);
+  inset: 0;
   z-index: -1;
 
   background-image: url("flowers.webp");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+  background-attachment: fixed;
 
   opacity: 0.15;
-  transform: translate3d(0, var(--flower-shift, 0px), 0);
   pointer-events: none;
 }
 
@@ -1719,14 +1715,10 @@ body:has(.nav-links.open) {
 }
 
    .quote-section::before {
-  top: -50px;
-  height: calc(100% + 100px);
-
   background-size: 130% 130%;
-  background-position: center 70%;
+  background-position: center calc(70% + var(--flower-shift, 0px));
   background-repeat: no-repeat;
-
-  transform: translate3d(0, var(--flower-shift, 0px), 0);
+  background-attachment: scroll;
 }
 
 .quote-inner {
@@ -2327,32 +2319,27 @@ updateNavbar();
 
 document.getElementById("footer-year").textContent = new Date().getFullYear();
 
-   // PLOVOUCÍ KVĚTINY – PC, TABLET A MOBIL
+    // PLOVOUCÍ KVĚTINY V ORANŽOVÉM PRUHU – MOBIL
 const flowerQuote = document.querySelector(".quote-section");
 
 if (flowerQuote) {
   let flowerTicking = false;
-  const flowerViewportHeight = window.screen.height;
 
   function updateFlowerParallax() {
     flowerTicking = false;
 
+    if (window.innerWidth > 600) {
+      flowerQuote.style.removeProperty("--flower-shift");
+      return;
+    }
+
     const rect = flowerQuote.getBoundingClientRect();
-
-    // Stabilní výška pro mobilní adresní řádek
-    const viewportCenter = window.innerWidth <= 600
-      ? flowerViewportHeight / 2
-      : window.innerHeight / 2;
-
+    const viewportCenter = window.innerHeight / 2;
     const sectionCenter = rect.top + rect.height / 2;
 
-    // Jemnější pohyb na mobilu, výraznější na PC
-    const speed = window.innerWidth <= 600 ? 0.25 : 0.3;
-const limit = window.innerWidth <= 600 ? 45 : 45;
-
     const shift = Math.max(
-      -limit,
-      Math.min(limit, (viewportCenter - sectionCenter) * speed)
+      -18,
+      Math.min(18, (viewportCenter - sectionCenter) * 0.08)
     );
 
     flowerQuote.style.setProperty("--flower-shift", `${shift}px`);
