@@ -1623,7 +1623,7 @@ max-width: none;
   height: 190px;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
 
 /* PLEŤ A TĚLO / MASÁŽE – MOBIL */
@@ -1674,7 +1674,7 @@ max-width: none;
 
    .quote-section::before {
   background-size: 130% 130%;
-  background-position: center 70%;
+  background-position: center calc(70% + var(--flower-shift, 0px));
   background-repeat: no-repeat;
   background-attachment: scroll;
 }
@@ -2276,6 +2276,45 @@ window.addEventListener("scroll", updateNavbar, { passive: true });
 updateNavbar();
 
 document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+    // PLOVOUCÍ KVĚTINY V ORANŽOVÉM PRUHU – MOBIL
+const flowerQuote = document.querySelector(".quote-section");
+
+if (flowerQuote) {
+  let flowerTicking = false;
+
+  function updateFlowerParallax() {
+    flowerTicking = false;
+
+    if (window.innerWidth > 600) {
+      flowerQuote.style.removeProperty("--flower-shift");
+      return;
+    }
+
+    const rect = flowerQuote.getBoundingClientRect();
+    const viewportCenter = window.innerHeight / 2;
+    const sectionCenter = rect.top + rect.height / 2;
+
+    const shift = Math.max(
+      -18,
+      Math.min(18, (viewportCenter - sectionCenter) * 0.08)
+    );
+
+    flowerQuote.style.setProperty("--flower-shift", `${shift}px`);
+  }
+
+  function requestFlowerParallax() {
+    if (!flowerTicking) {
+      flowerTicking = true;
+      requestAnimationFrame(updateFlowerParallax);
+    }
+  }
+
+  window.addEventListener("scroll", requestFlowerParallax, { passive: true });
+  window.addEventListener("resize", requestFlowerParallax);
+
+  requestFlowerParallax();
+}
   </script>
 
 </body>
