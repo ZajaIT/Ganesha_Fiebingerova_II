@@ -1529,13 +1529,18 @@ max-width: none;
 }
 
   .intro-text p {
-    font-size: 14px;
-    line-height: 1.8;
-  }
+  font-size: 14px;
+  line-height: 1.8;
+  text-align: center;
+}
 
-  .intro-image {
-    min-height: 300px;
-  }
+ .intro-image {
+  min-height: 300px;
+}
+
+.intro-image::before {
+  display: none;
+}
 
 .intro-image .intro-decoration {
   width: 55%;
