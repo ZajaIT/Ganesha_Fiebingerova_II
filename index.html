@@ -1096,6 +1096,11 @@ max-width: none;
 
     /* MOBILE NAVIGATION */
     @media (max-width: 900px) {
+
+      html:has(.nav-links.open),
+body:has(.nav-links.open) {
+  overflow: hidden;
+}
       .hero {
         height: auto;
         min-height: 740px;
