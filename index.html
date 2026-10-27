@@ -1447,9 +1447,13 @@ body:has(.nav-links.open) {
 
     @media (max-width: 600px) {
       .hero {
-        min-height: 780px;
-        background-position: 61% center;
-      }
+  min-height: 780px;
+  background-position: 61% center;
+}
+
+.hero::before {
+  display: none;
+}
 
       .navbar {
         padding: 12px 5%;
