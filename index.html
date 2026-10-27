@@ -1644,11 +1644,28 @@ body:has(.nav-links.open) {
 /* PLOVOUCÍ POZADÍ – MOBIL */
 
 .parallax-section {
+  position: relative;
   height: 190px;
-  background-size: auto 75%;
+  overflow: hidden;
+  background-image: none;
+}
+
+.parallax-section::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -80px;
+  height: calc(100% + 160px);
+
+  background-image: url("pozadi.webp");
+  background-size: cover;
   background-position: 65% center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+
+  transform: translate3d(0, var(--mirka-shift, 0px), 0);
+  will-change: transform;
+  pointer-events: none;
 }
 
 /* PLEŤ A TĚLO / MASÁŽE – MOBIL */
@@ -2339,6 +2356,46 @@ if (flowerQuote) {
   window.addEventListener("resize", requestFlowerParallax);
 
   requestFlowerParallax();
+}
+
+      // PLOVOUCÍ FOTOGRAFIE MIRKY – MOBIL
+const mirkaParallax = document.querySelector(".parallax-section");
+
+if (mirkaParallax) {
+  let mirkaTicking = false;
+
+  function updateMirkaParallax() {
+    mirkaTicking = false;
+
+    if (window.innerWidth > 600) {
+      mirkaParallax.style.removeProperty("--mirka-shift");
+      return;
+    }
+
+    const rect = mirkaParallax.getBoundingClientRect();
+    const viewportCenter = window.innerHeight / 2;
+    const sectionCenter = rect.top + rect.height / 2;
+
+    // Posun fotografie podle polohy pruhu na obrazovce
+    const shift = Math.max(
+      -70,
+      Math.min(70, (viewportCenter - sectionCenter) * 0.18)
+    );
+
+    mirkaParallax.style.setProperty("--mirka-shift", `${shift}px`);
+  }
+
+  function requestMirkaParallax() {
+    if (!mirkaTicking) {
+      mirkaTicking = true;
+      requestAnimationFrame(updateMirkaParallax);
+    }
+  }
+
+  window.addEventListener("scroll", requestMirkaParallax, { passive: true });
+  window.addEventListener("resize", requestMirkaParallax);
+
+  requestMirkaParallax();
 }
   </script>
 
